@@ -63,7 +63,7 @@ int main ( int argc, char *argv[] )
 	int num_query = atoi(argv[2]);
 	CKMCFile kmer_database_list;
 	CKMCFile kmer_database_rand;
-	vector<CKmerAPI*> kmer_objects;
+	vector<CKmerAPI> kmer_objects;
 	CKmerAPI kmer(28);
 	uint32_t counter;
 	struct timeval start, end;
@@ -78,7 +78,7 @@ int main ( int argc, char *argv[] )
 	int i = 0;
 	while (kmer_database_list.ReadNextKmer(kmer, counter)) {
 		i++;
-		kmer_objects.push_back(new CKmerAPI(kmer));
+		kmer_objects.push_back(kmer);
 	}
 	cout << "Total kmers: " << i << endl;
 	kmer_database_list.Close();
@@ -95,8 +95,8 @@ int main ( int argc, char *argv[] )
 	for (int i = 0; i < num_query; i++) {
 		int id = rand()%kmer_objects.size();
 		/*cout << "index: " << id << endl;*/
-		if (!kmer_database_rand.CheckKmer(*kmer_objects[id], counter)) {
-			cout << "Can not find the kmer: " << kmer_objects[id]->to_string() << endl;
+		if (!kmer_database_rand.CheckKmer(kmer_objects[id], counter)) {
+			cout << "Can not find the kmer: " << kmer_objects[id].to_string() << endl;
 			abort();
 		}
 	}
