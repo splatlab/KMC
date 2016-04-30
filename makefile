@@ -6,7 +6,7 @@ KMC_API_DIR = kmc_api
 KMC_DUMP_DIR = kmc_dump
 KMC_TOOLS_DIR = kmc_tools
 
-CC 	= g++
+CC 	= g++-4.9
 CFLAGS	= -Wall -O3 -m64 -static -fopenmp -Wl,--whole-archive -lpthread -Wl,--no-whole-archive -std=c++11 
 CLINK	= -lm -static -fopenmp -O3 -Wl,--whole-archive -lpthread -Wl,--no-whole-archive -std=c++11 
 
