@@ -59,12 +59,11 @@ void print_time_elapsed(string desc, struct timeval* start, struct timeval* end)
  */
 int main ( int argc, char *argv[] )
 {
-	filename = string(argv[1]);
+	string filename = string(argv[1]);
 	int num_query = atoi(argv[2]);
 	CKMCFile kmer_database_list;
 	CKMCFile kmer_database_rand;
 	vector<CKmerAPI*> kmer_objects;
-	string filename;
 	CKmerAPI kmer(28);
 	uint32_t counter;
 	struct timeval start, end;
