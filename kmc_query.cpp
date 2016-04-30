@@ -59,6 +59,7 @@ void print_time_elapsed(string desc, struct timeval* start, struct timeval* end)
  */
 int main ( int argc, char *argv[] )
 {
+	filename = string(argv[1]);
 	int num_query = atoi(argv[2]);
 	CKMCFile kmer_database_list;
 	CKMCFile kmer_database_rand;
@@ -68,8 +69,6 @@ int main ( int argc, char *argv[] )
 	uint32_t counter;
 	struct timeval start, end;
 	struct timezone tzp;
-
-	filename = string(argv[1]);
 
 	if (!kmer_database_list.OpenForListing(filename)) {
 		cout << "Can not open the database file" << endl;
