@@ -76,10 +76,13 @@ int main ( int argc, char *argv[] )
 		return EXIT_FAILURE;
 	}
 
-	cout << "Reading from the fastq file and inserting in a vector list" << endl;
+	cout << "Reading kmers from the database list" << endl;
+	int i = 0;
 	while (kmer_database_list.ReadNextKmer(kmer, counter)) {
+		i++;
 		kmer_objects.push_back(new CKmerAPI(kmer));
 	}
+	cout << "Total kmers: " << i << endl;
 	kmer_database_list.Close();
 
 	if (!kmer_database_rand.OpenForRA(filename)) {
@@ -89,11 +92,13 @@ int main ( int argc, char *argv[] )
 
 	srand(time(NULL));
 
-	cout << "Querying kmers in the QF" << endl;
+	cout << "Querying kmers in the KMC database rand" << endl;
 	gettimeofday(&start, &tzp);
 	for (int i = 0; i < num_query; i++) {
-		if (!kmer_database_rand.CheckKmer(*kmer_objects[rand()%kmer_objects.size()], counter)) {
-			cout << "Can not find the kmer: " << kmer_objects[rand()%kmer_objects.size()]->to_string() << endl;
+		int id = rand()%kmer_objects.size();
+		/*cout << "index: " << id << endl;*/
+		if (!kmer_database_rand.CheckKmer(*kmer_objects[id], counter)) {
+			cout << "Can not find the kmer: " << kmer_objects[id]->to_string() << endl;
 			abort();
 		}
 	}
