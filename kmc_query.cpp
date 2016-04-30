@@ -62,7 +62,7 @@ int main ( int argc, char *argv[] )
 	int num_query = atoi(argv[2]);
 	CKMCFile kmer_database_list;
 	CKMCFile kmer_database_rand;
-	vector<CKmerAPI> kmer_objects;
+	vector<CKmerAPI*> kmer_objects;
 	string filename;
 	CKmerAPI kmer(28);
 	uint32_t counter;
@@ -78,8 +78,9 @@ int main ( int argc, char *argv[] )
 
 	cout << "Reading from the fastq file and inserting in a vector list" << endl;
 	while (kmer_database_list.ReadNextKmer(kmer, counter)) {
-		kmer_objects.push_back(kmer);
+		kmer_objects.push_back(new CKmerAPI(kmer));
 	}
+	kmer_database_list.Close();
 
 	if (!kmer_database_rand.OpenForRA(filename)) {
 		cout << "Can not open the database file" << endl;
@@ -91,13 +92,14 @@ int main ( int argc, char *argv[] )
 	cout << "Querying kmers in the QF" << endl;
 	gettimeofday(&start, &tzp);
 	for (int i = 0; i < num_query; i++) {
-		if (!kmer_database_rand.CheckKmer(kmer_objects[rand()%kmer_objects.size()], counter)) {
-			cout << "Can not find the kmer: " << kmer_objects[rand()%kmer_objects.size()].to_string() << endl;
+		if (!kmer_database_rand.CheckKmer(*kmer_objects[rand()%kmer_objects.size()], counter)) {
+			cout << "Can not find the kmer: " << kmer_objects[rand()%kmer_objects.size()]->to_string() << endl;
 			abort();
 		}
 	}
 	gettimeofday(&end, &tzp);
 	print_time_elapsed("", &start, &end);
+	kmer_database_rand.Close();
 
 	return EXIT_SUCCESS;
 }				/* ----------  end of function main  ---------- */

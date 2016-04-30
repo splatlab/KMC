@@ -104,4 +104,4 @@ clean:
 	-rm $(KMC_TOOLS_DIR)/*.o
 	-rm -rf bin
 
-all: kmc kmc_dump kmc_tools
+all: kmc kmc_dump kmc_tools kmc_query
