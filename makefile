@@ -18,6 +18,9 @@ DISABLE_ASMLIB = false
 KMC_QUERY_OBJS = \
 kmc_query.o
 
+KMC_DE_BRUIJN_OBJS = \
+kmc_debruijn.o
+
 KMC_OBJS = \
 $(KMC_MAIN_DIR)/kmer_counter.o \
 $(KMC_MAIN_DIR)/mmer.o \
@@ -76,6 +79,9 @@ endif
 $(KMC_QUERY_OBJS): %.o: %.cpp
 	$(CC) $(CFLAGS) -c $< -o $@
 
+$(KMC_DE_BRUIJN_OBJS): %.o: %.cpp
+	$(CC) $(CFLAGS) -c $< -o $@
+
 $(KMC_OBJS) $(KMC_DUMP_OBJS) $(KMC_API_OBJS): %.o: %.cpp
 	$(CC) $(CFLAGS) -c $< -o $@
 
@@ -83,6 +89,10 @@ $(KMC_TOOLS_OBJS): %.o: %.cpp
 	$(CC) $(KMC_TOOLS_CFLAGS) -c $< -o $@
 
 kmc_query: $(KMC_QUERY_OBJS) $(KMC_API_OBJS)
+	-mkdir -p $(KMC_BIN_DIR)
+	$(CC) $(CLINK) -o $(KMC_BIN_DIR)/$@ $^ $(KMC_LIBS)
+
+kmc_de_bruijn: $(KMC_DE_BRUIJN_OBJS) $(KMC_API_OBJS)
 	-mkdir -p $(KMC_BIN_DIR)
 	$(CC) $(CLINK) -o $(KMC_BIN_DIR)/$@ $^ $(KMC_LIBS)
 
@@ -104,4 +114,4 @@ clean:
 	-rm $(KMC_TOOLS_DIR)/*.o
 	-rm -rf bin
 
-all: kmc kmc_dump kmc_tools kmc_query
+all: kmc kmc_dump kmc_tools kmc_query kmc_de_bruijn
