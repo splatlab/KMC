@@ -86,7 +86,6 @@ void print_time_elapsed(string desc, struct timeval* start, struct timeval* end)
 int main ( int argc, char *argv[] )
 {
 	string filename = string(argv[1]);
-	int num_kmers = atoi(argv[2]);
 	CKMCFile kmer_database_list;
 	CKMCFile kmer_database_rand;
 	vector<CKmerAPI> kmers;
@@ -105,7 +104,6 @@ int main ( int argc, char *argv[] )
 	while (kmer_database_list.ReadNextKmer(kmer, counter)) {
 		kmers.push_back(kmer);
 	}
-	cout << "Total kmers: " << i << endl;
 	kmer_database_list.Close();
 
 	if (!kmer_database_rand.OpenForRA(filename)) {
