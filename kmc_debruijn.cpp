@@ -102,23 +102,11 @@ int main ( int argc, char *argv[] )
 	}
 
 	cout << "Reading kmers from the database list" << endl;
-	int i = 0;
 	while (kmer_database_list.ReadNextKmer(kmer, counter)) {
-		i++;
-		if (i == num_kmers)
-			break;
 		kmers.push_back(kmer);
 	}
 	cout << "Total kmers: " << i << endl;
 	kmer_database_list.Close();
-
-	/* write the kmers to the disk */
-	ofstream ofs;
-	ofs.open("kmers_seed");
-	for (CKmerAPI kmer : kmers) {
-		ofs << str_to_int(kmer.to_string()) << "\n" ;
-	}
-	ofs.close();
 
 	if (!kmer_database_rand.OpenForRA(filename)) {
 		cout << "Can not open the database file" << endl;
