@@ -7,17 +7,15 @@ echo "f_vesca 16 threads"
 sleep 2
 echo "f_vesca 12 threads"
 /usr/bin/time ./kmc -k28 -ci0 -cs100000000 -cx1000000000 -r -t12 @../../data/f_vesca.name.txt NA_f_vesca.res data
-/usr/bin/time ./jellyfish count -m 28 -C -s 650M -t 12 -o jelly2 -g f_vesca.gen -G 11 --timing=jelly2time_f_vesca_12
 sleep 2
 echo "f_vesca 8 threads"
 /usr/bin/time ./kmc -k28 -ci0 -cs100000000 -cx1000000000 -r -t8 @../../data/f_vesca.name.txt NA_f_vesca.res data
-/usr/bin/time ./jellyfish count -m 28 -C -s 650M -t 8 -o jelly2 -g f_vesca.gen -G 11 --timing=jelly2time_f_vesca_8
 sleep 2
 echo "f_vesca 4 threads"
 /usr/bin/time ./kmc -k28 -ci0 -cs100000000 -cx1000000000 -r -t4 @../../data/f_vesca.name.txt NA_f_vesca.res data
 sleep 2
 #echo "f_vesca 2 threads"
-#/usr/bin/time ./jellyfish count -m 28 -C -s 650M -t 2 -o jelly2 -g f_vesca.gen -G 11 --timing=jelly2time_f_vesca_2
+#/usr/bin/time ./kmc -k28 -ci0 -cs100000000 -cx1000000000 -r -t2 @../../data/f_vesca.name.txt NA_f_vesca.res data
 #sleep 2
 
 ######################################################
