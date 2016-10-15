@@ -51,6 +51,19 @@ void print_time_elapsed(string desc, struct timeval* start, struct timeval* end)
 	cout << desc << "Total Time Elapsed: " << to_string(time_elapsed) << " seconds" << endl;
 }
 
+char bases[] = {'C', 'A', 'T', 'G'}; // A=1, C=0, T=2, G=3
+void getRandomKmers(int n, vector<CKmerAPI>& kmers)
+{
+	for (int j = 0; j < n; j++) {
+		char kmer[28] = {0};
+		for (int i = 0; i < 28; i++) {
+			kmer[i] = bases[rand()/4];
+		}
+		CKmerAPI kmc_kmer(28);
+		kmers.push_back(kmc_kmer.from_string(kmer));
+	}
+}
+
 /* 
  * ===  FUNCTION  ======================================================================
  *         Name:  main
@@ -61,6 +74,7 @@ int main ( int argc, char *argv[] )
 {
 	string filename = string(argv[1]);
 	int num_query = atoi(argv[2]);
+	int random = atoi(argv[3]);
 	CKMCFile kmer_database_list;
 	CKMCFile kmer_database_rand;
 	vector<CKmerAPI> kmer_objects;
@@ -75,6 +89,9 @@ int main ( int argc, char *argv[] )
 	}
 
 	cout << "Reading kmers from the database list" << endl;
+	if (random) {
+		getRandomKmers(num_query, kmer_objects);
+	} else {
 	int i = 0;
 	while (kmer_database_list.ReadNextKmer(kmer, counter)) {
 		i++;
@@ -82,18 +99,18 @@ int main ( int argc, char *argv[] )
 	}
 	cout << "Total kmers: " << i << endl;
 	kmer_database_list.Close();
-
+	}
+	
 	if (!kmer_database_rand.OpenForRA(filename)) {
 		cout << "Can not open the database file" << endl;
 		return EXIT_FAILURE;
 	}
-
 	srand(time(NULL));
 
 	cout << "Querying kmers in the KMC database rand" << endl;
 	gettimeofday(&start, &tzp);
 	for (int i = 0; i < num_query; i++) {
-		int id = rand()%kmer_objects.size();
+		uint64_t id = rand()%kmer_objects.size();
 		/*cout << "index: " << id << endl;*/
 		if (!kmer_database_rand.CheckKmer(kmer_objects[id], counter)) {
 			cout << "Can not find the kmer: " << kmer_objects[id].to_string() << endl;
