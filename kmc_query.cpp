@@ -91,9 +91,9 @@ int main ( int argc, char *argv[] )
 	cout << "Reading kmers from the database list" << endl;
 	if (random) {
 		for (int j = 0; j < num_query; j++) {
-			char kmer[28] = {0};
+			string kmer;
 			for (int i = 0; i < 28; i++) {
-				kmer[i] = bases[rand()/4];
+				kmer += bases[rand()/4];
 			}
 			CKmerAPI kmc_kmer(28);
 			kmer_objects.push_back(kmc_kmer.from_string(kmer));
