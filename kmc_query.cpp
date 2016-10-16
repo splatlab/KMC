@@ -51,18 +51,17 @@ void print_time_elapsed(string desc, struct timeval* start, struct timeval* end)
 	cout << desc << "Total Time Elapsed: " << to_string(time_elapsed) << " seconds" << endl;
 }
 
-char bases[] = {'C', 'A', 'T', 'G'}; // A=1, C=0, T=2, G=3
-void getRandomKmers(int n, vector<CKmerAPI>& kmers)
-{
-	for (int j = 0; j < n; j++) {
-		char kmer[28] = {0};
-		for (int i = 0; i < 28; i++) {
-			kmer[i] = bases[rand()/4];
-		}
-		CKmerAPI kmc_kmer(28);
-		kmers.push_back(kmc_kmer.from_string(kmer));
-	}
-}
+//void getRandomKmers(int n, vector<CKmerAPI>& kmers)
+//{
+	//for (int j = 0; j < n; j++) {
+		//char kmer[28] = {0};
+		//for (int i = 0; i < 28; i++) {
+			//kmer[i] = bases[rand()/4];
+		//}
+		//CKmerAPI kmc_kmer(28);
+		//kmers.push_back(kmc_kmer.from_string(kmer));
+	//}
+//}
 
 /* 
  * ===  FUNCTION  ======================================================================
@@ -82,6 +81,7 @@ int main ( int argc, char *argv[] )
 	uint32_t counter;
 	struct timeval start, end;
 	struct timezone tzp;
+	char bases[] = {'C', 'A', 'T', 'G'}; // A=1, C=0, T=2, G=3
 
 	if (!kmer_database_list.OpenForListing(filename)) {
 		cout << "Can not open the database file" << endl;
@@ -90,7 +90,14 @@ int main ( int argc, char *argv[] )
 
 	cout << "Reading kmers from the database list" << endl;
 	if (random) {
-		getRandomKmers(num_query, kmer_objects);
+		for (int j = 0; j < num_query; j++) {
+			char kmer[28] = {0};
+			for (int i = 0; i < 28; i++) {
+				kmer[i] = bases[rand()/4];
+			}
+			CKmerAPI kmc_kmer(28);
+			kmer_objects.push_back(kmc_kmer.from_string(kmer));
+		}
 	} else {
 	uint64_t i = 0;
 	while (kmer_database_list.ReadNextKmer(kmer, counter)) {
