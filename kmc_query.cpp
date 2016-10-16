@@ -92,7 +92,7 @@ int main ( int argc, char *argv[] )
 	if (random) {
 		getRandomKmers(num_query, kmer_objects);
 	} else {
-	int i = 0;
+	uint64_t i = 0;
 	while (kmer_database_list.ReadNextKmer(kmer, counter)) {
 		i++;
 		kmer_objects.push_back(kmer);
