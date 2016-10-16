@@ -93,7 +93,7 @@ int main ( int argc, char *argv[] )
 		for (int j = 0; j < num_query; j++) {
 			string kmer;
 			for (int i = 0; i < 28; i++) {
-				kmer += bases[rand()/4];
+				kmer += bases[rand()%4];
 			}
 			CKmerAPI kmc_kmer(28);
 			kmer_objects.push_back(kmc_kmer.from_string(kmer));
