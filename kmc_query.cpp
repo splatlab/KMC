@@ -74,6 +74,7 @@ int main ( int argc, char *argv[] )
 	string filename = string(argv[1]);
 	int num_query = atoi(argv[2]);
 	int random = atoi(argv[3]);
+	int dump = atoi(argv[4]);
 	CKMCFile kmer_database_list;
 	CKMCFile kmer_database_rand;
 	vector<CKmerAPI> kmer_objects;
@@ -82,6 +83,8 @@ int main ( int argc, char *argv[] )
 	struct timeval start, end;
 	struct timezone tzp;
 	char bases[] = {'C', 'A', 'T', 'G'}; // A=1, C=0, T=2, G=3
+	ofstream dumpfile;
+	dumpfile.open("RandomKmer.dump");
 
 	if (!kmer_database_list.OpenForListing(filename)) {
 		cout << "Can not open the database file" << endl;
@@ -95,6 +98,8 @@ int main ( int argc, char *argv[] )
 			for (int i = 0; i < 28; i++) {
 				kmer += bases[rand()%4];
 			}
+			if (dump)
+				dumpfile << kmer << endl;
 			CKmerAPI kmc_kmer(28);
 			kmer_objects.push_back(kmc_kmer.from_string(kmer));
 		}
