@@ -131,9 +131,28 @@ int main ( int argc, char *argv[] )
 				str = str.substr(1, str.length());
 
 				kmerA.from_string(str + 'A');
+				CKmerAPI RkmerA(kmerA);
+				RkmerA.reverse();
+				if (RkmerA < kmerA)
+					kmerA = RkmerA;
+				
 				kmerC.from_string(str + 'C');
+				CKmerAPI RkmerC(kmerC);
+				RkmerC.reverse();
+				if (RkmerC < kmerC)
+					kmerC = RkmerC;
+				
 				kmerT.from_string(str + 'T');
+				CKmerAPI RkmerT(kmerT);
+				RkmerT.reverse();
+				if (RkmerT < kmerT)
+					kmerT = RkmerT;
+				
 				kmerG.from_string(str + 'G');
+				CKmerAPI RkmerG(kmerG);
+				RkmerG.reverse();
+				if (RkmerG < kmerG)
+					kmerG = RkmerG;
 
 				/* Check for the next edge from this node */
 				/* If found then push node in the path list */
